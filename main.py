@@ -16,9 +16,11 @@ timer = None
 
 
 def reset_timer():
+    global reps
+    reps = 0
+    my_label.config(text="Timer", fg=GREEN)
     window.after_cancel(timer)
     canvas.itemconfig(count_timer, text="00:00")
-    my_label.config(text="Timer")
     checkmark_label.config(text="")
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
@@ -39,6 +41,7 @@ def add_timer():
         count_down(short_break_sec)
         my_label.config(text="Break", fg=PINK)
     elif reps == 9:
+        my_label.config(text="Timer's End", fg=PINK)
         reps = 0
     else:
         count_down(work_sec)
@@ -60,7 +63,7 @@ def count_down(count):
     canvas.itemconfig(count_timer, text=f"{count_min}:{count_sec}")
     if count > 0:
         global timer
-        timer = window.after(1000, count_down, count - 1)
+        timer = window.after(1, count_down, count - 1)
     elif count == 0:
         add_timer()
         marks = ""
